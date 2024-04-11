@@ -2,15 +2,18 @@
  * Classe que representa uma peça do jogo de damas.
  */
 export class Peca {
+  static idCount = 0;
+
   /**
    * Construtor da classe Piece.
    * @param {string} cor - Cor da peça ("w" para branca, "b" para preta).
    * @param {number} linha - Linha da posição da peça no tabuleiro.
    * @param {number} coluna - Coluna da posição da peça no tabuleiro.
+   * @param {Board} boardRef - Referência ao objeto Board.
    */
   constructor(cor, linha, coluna, boardRef) {
     // Gera um ID único para a peça
-    this.id = crypto.randomUUID();
+    this.id = this.setId();
     // Define a cor da peça com base no parâmetro recebido
     this.cor = cor === "w" ? "white" : "black";
     // Define a posição da peça no tabuleiro
@@ -18,8 +21,21 @@ export class Peca {
     this.coluna = coluna;
     // Cria o elemento HTML da peça
     this.peca = this.criarPeca();
-    this.casa = null
-    this.boardRef = boardRef
+    // Referência à casa onde a peça está localizada
+    this.casa = null;
+    // Referência ao objeto Board
+    this.boardRef = boardRef;
+    // Array para armazenar os movimentos possíveis da peça
+    this.movimentosPossiveis = [];
+  }
+
+  /**
+   * Gera um ID único para a peça.
+   * @returns {number} - ID único da peça.
+   */
+  setId() {
+    Peca.idCount++;
+    return Peca.idCount;
   }
 
   /**
@@ -54,21 +70,32 @@ export class Peca {
   capturar() {
     this.capturado = true;
   }
+
+  /**
+   * Define a casa onde a peça está localizada.
+   * @param {HTMLElement} tile - Elemento HTML da casa onde a peça está localizada.
+   */
   setCasa(tile) {
     this.casa = tile;
   }
-  
+
+  /**
+   * Retorna a casa onde a peça está localizada.
+   * @returns {HTMLElement} - Elemento HTML da casa onde a peça está localizada.
+   */
   getCasa() {
     return this.casa;
   }
+
   /**
    * Move a peça para uma nova posição no tabuleiro.
    * @param {number} novaLinha - Nova linha da posição da peça no tabuleiro.
    * @param {number} novaColuna - Nova coluna da posição da peça no tabuleiro.
+   * @param {HTMLElement} tile - Elemento HTML da casa para onde a peça será movida.
    */
-   mover(novaLinha, novaColuna, tile) {
+  mover(novaLinha, novaColuna, tile) {
     this.linha = novaLinha;
     this.coluna = novaColuna;
-    this.casa = tile
+    this.casa = tile;
   }
 }

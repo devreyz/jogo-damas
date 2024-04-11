@@ -15,7 +15,7 @@ export class Board {
     this.casas = [];
     this.pecas = [];
     this.pecaSelecionada = null;
-    this.turno = "black";
+    this.turno = "black"; // Define o turno inicial como preto
   }
 
   /**
@@ -47,7 +47,13 @@ export class Board {
                 board: this,
               },
             });
-            
+            if (this.pecaSelecionada && this.estado[y][x]) {
+              if (this.pecaSelecionada.cor === this.estado[y][x].cor) {
+                this.pecaSelecionada.peca.classList.remove("peca-selecionada");
+                this.pecaSelecionada = this.estado[y][x];
+                this.pecaSelecionada.peca.classList.add("peca-selecionada");
+              }
+            }
             document.dispatchEvent(clickEvent);
           };
         }
@@ -61,20 +67,29 @@ export class Board {
     });
   }
 
-  // Função para alternar o turno dos jogadores
+  /**
+   * Função para alternar o turno dos jogadores.
+   */
   alternarTurno() {
     this.turno = this.turno === "white" ? "black" : "white"; // Alterna entre 'branco' e 'preto'
-    document.getElementById("turno").style.background = this.turno
+    document.getElementById("turno").style.background = this.turno;
   }
 
-  // Função para verificar se um jogador pode jogar
+  /**
+   * Função para verificar se um jogador pode jogar.
+   * @returns {boolean} - True se o jogador pode jogar, false caso contrário.
+   */
   podeJogar() {
     // Implemente a lógica para verificar se o jogador atual tem movimentos possíveis
     // Se sim, retorne true; se não, retorne false
     return true; // Exemplo simples - sempre retorna true
   }
 
-  // Função para verificar se um jogador pode jogar novamente após uma captura
+  /**
+   * Função para verificar se um jogador pode jogar novamente após uma captura.
+   * @param {boolean} capturou - Indica se o jogador capturou uma peça na jogada anterior.
+   * @returns {boolean} - True se o jogador pode jogar novamente, false caso contrário.
+   */
   podeJogarNovamente(capturou) {
     if (capturou) {
       // Se o jogador capturou uma peça, ele pode jogar novamente
@@ -86,7 +101,10 @@ export class Board {
     }
   }
 
-  // Função para realizar uma jogada (chamada quando o jogador faz uma jogada)
+  /**
+   * Função para realizar uma jogada (chamada quando o jogador faz uma jogada).
+   * @param {boolean} capturou - Indica se o jogador capturou uma peça na jogada atual.
+   */
   realizarJogada(capturou) {
     // Implemente a lógica para realizar uma jogada
     // Exemplo simples - assume que a jogada capturou uma peça
@@ -99,16 +117,33 @@ export class Board {
       }
     }
   }
+
+  /**
+   * Define a peça selecionada.
+   * @param {Peca} peca - Peça selecionada.
+   */
   setPecaSelecionada(peca) {
-    Board.pecaSelecionada = peca;
+    this.pecaSelecionada = peca;
   }
+
+  /**
+   * Retorna a peça selecionada.
+   * @returns {Peca} - Peça selecionada.
+   */
   getPecaSelecionada() {
-    return Board.pecaSelecionada;
+    return this.pecaSelecionada;
   }
+
+  /**
+   * Move uma peça para uma casa especificada.
+   * @param {HTMLElement} peca - Elemento HTML da peça a ser movida.
+   * @param {HTMLElement} tile - Elemento HTML da casa de destino.
+   */
   moverPeca(peca, tile) {
     tile.appendChild(peca);
     peca.classList.remove("peca-selecionada");
   }
+
   /**
    * Cria uma matriz de peças com base no estado passado no formato de array.
    * @param {Array} estado - Estado inicial em que será organizado o tabuleiro.
@@ -118,7 +153,6 @@ export class Board {
    * - "w": Cria uma casa com peça Branca.
    * @returns {Array} - Matriz de peças do tabuleiro.
    */
-
   criarMatrixDePecas(estado) {
     const matriz = [];
     estado.forEach((rowArray, y) => {

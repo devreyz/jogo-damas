@@ -13,14 +13,14 @@ body{
 }
 
 .board-cell{
-  @apply w-16 h-16 relative border 
+  @apply w-14 h-14 relative border 
 }
 .board-tile{
   @apply flex items-center justify-center w-full h-full
 }
 
 .peca{
-  @apply w-4/5 h-4/5 rounded-full shadow-piece cursor-pointer 
+  @apply w-4/5 h-4/5 rounded-full shadow-piece cursor-pointer  text-slate-400
 }
 .peca-selecionada{
   @apply border-2 border-green-800

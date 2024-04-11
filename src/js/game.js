@@ -1,6 +1,11 @@
 import "../css/style.css";
 import { Board } from "./board";
+import { GameRules } from "./game-rules";
+import { GameActions } from "./gameActions";
+
 const app = document.getElementById("app");
+
+// Estado inicial do jogo
 let state = [
   [null, "b", null, "b", null, "b", null, "b", null, "b"],
   ["b", null, "b", null, "b", null, "b", null, "b", null],
@@ -14,39 +19,24 @@ let state = [
   ["w", null, "w", null, "w", null, "w", null, "w", null],
 ];
 
+// Criação do tabuleiro, regras do jogo e ações do jogo
+const tabuleiro = new Board(10);
+const regras = new GameRules(tabuleiro);
+const acoes = new GameActions(tabuleiro, regras);
 
-//const moverPecas = (peca, col, lin, tileAfter, newTile)
+// Criação das peças e configuração do estado inicial do tabuleiro
+state = tabuleiro.criarMatrixDePecas(state);
+tabuleiro.setEstado(state);
 
+// Renderização do estado inicial do tabuleiro
+tabuleiro.renderizarEstadoDoTabuleiro();
+app.appendChild(tabuleiro.getBoard());
 
-const tabuleiro = new Board(10)
-state = tabuleiro.criarMatrixDePecas(state)
-tabuleiro.setEstado(state)
-
-tabuleiro.renderizarEstadoDoTabuleiro()
-app.appendChild(tabuleiro.getBoard())
-
-console.table(tabuleiro.estado);
-
+// Event listener para o evento de clique em uma casa do tabuleiro
 document.addEventListener("tileClicked", (event) => {
-  moverPeca(event)
+  // Chamada da função para mover a peça
+  acoes.moverPeca(event);
+
+  // Exibição do estado do tabuleiro no console
+  console.table(tabuleiro.estado);
 });
-
-function moverPeca(event) {
-  let { tile, peca, y, x, board } = event.detail;
- 
-  if (!board.pecaSelecionada && board.estado[y][x] && peca.cor === board.turno) {
-    board.pecaSelecionada = peca
-    board.pecaSelecionada.peca.classList.add("peca-selecionada");
-  }
-  if (board.pecaSelecionada && !board.estado[y][x]) {
-    board.moverPeca(board.pecaSelecionada.peca, tile.target);
-    board.realizarJogada(false)
-    board.estado[y][x] = board.pecaSelecionada;
-    board.estado[board.pecaSelecionada.linha][board.pecaSelecionada.coluna] =
-      null;
-    board.pecaSelecionada.coluna = x;
-    board.pecaSelecionada.linha = y;
-    board.pecaSelecionada = null;
-  }
-}
-
