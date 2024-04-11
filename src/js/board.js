@@ -1,60 +1,89 @@
-import interact from "interactjs";
+import { Piece } from "./piece";
 
+/**
+ * Classe que representa o tabuleiro do jogo de damas.
+ */
 export class Board {
-  constructor(size, state) {
+  /**
+   * Construtor da classe Board.
+   * @param {number} size - Tamanho do tabuleiro.
+   */
+  constructor(size) {
     this.size = size;
-    this.state = state;
-    this.board = this.createBoard();
+    this.state = [];
+    this.board = document.createElement("table");
+    this.tiles = [];
+    this.pieces = [];
   }
 
-  createBoard() {
-    const boardTable = document.createElement("table");
-    boardTable.classList.add(
-      "board",
-      "border-2",
-      "border-slate-800",
-      "rounded-md",
-      "overflow-hidden",
-      "w-full"
-    );
-    this.state.forEach((row, indexX) => {
-      const rowGrid = document.createElement("tr");
-
-      row.forEach((item, indexY) => {
+  /**
+   * Renderiza o estado atual do tabuleiro.
+   */
+  renderBoardState() {
+    this.board.classList.add("board");
+    this.state.forEach((rowArray, y) => {
+      const row = document.createElement("tr");
+      row.classList.add("board-row");
+      this.tiles[y] = [];
+      rowArray.forEach((item, x) => {
         const cell = document.createElement("td");
+        cell.classList.add("board-cell");
         const tile = document.createElement("div");
-        tile.classList.add("draggable",`w-16`, `h-16`);
-        tile.textContent = item;
-        if ((indexX + indexY) % 2 === 0) {
-          tile.classList.add("bg-stone-100");
-        } else {
-          tile.classList.add("bg-stone-800");
-        }
-
+        tile.classList.add("board-tile");
         cell.appendChild(tile);
-        rowGrid.appendChild(cell);
+        row.appendChild(cell);
+        this.tiles[y][x] = cell;
+        if ((x + y) % 2 === 0) {
+          cell.classList.add("bg-orange-200");
+        }
+        if (item !== null) {
+          tile.appendChild(item.getPiece());
+          this.pieces.push(item);
+        }
       });
-      boardTable.appendChild(rowGrid);
+      this.board.appendChild(row);
     });
-
-    return boardTable;
   }
-  makeDraggable() {
-    const position = { x: 0, y: 0 }
 
-interact('.draggable').draggable({
-  listeners: {
-    start (event) {
-      console.log(event.type, event.target)
-    },
-    move (event) {
-      position.x += event.dx
-      position.y += event.dy
+  /**
+   * Cria uma matriz de peças com base no estado passado no formato de array.
+   * @param {Array} state - Estado inicial em que será organizado o tabuleiro.
+   * Valores válidos:
+   * - null: Cria uma casa vazia.
+   * - "b": Cria uma casa com peça Preta.
+   * - "w": Cria uma casa com peça Branca.
+   * @returns {Array} - Matriz de peças do tabuleiro.
+   */
 
-      event.target.style.transform =
-        `translate(${position.x}px, ${position.y}px)`
-    },
+  createPieceMatrix(state) {
+    const pieceMatrix = [];
+    state.forEach((rowArray, y) => {
+      pieceMatrix[y] = [];
+      rowArray.forEach((item, x) => {
+        if (item !== null) {
+          const piece = new Piece(item, y, x);
+          pieceMatrix[y][x] = piece;
+        } else {
+          pieceMatrix[y][x] = null;
+        }
+      });
+    });
+    return pieceMatrix;
   }
-})
+
+  /**
+   * Define o estado do tabuleiro.
+   * @param {Array} state - Novo estado do tabuleiro.
+   */
+  setState(state) {
+    this.state = state;
+  }
+
+  /**
+   * Retorna o elemento HTML do tabuleiro.
+   * @returns {HTMLElement} - Elemento HTML do tabuleiro.
+   */
+  getBoard() {
+    return this.board;
   }
 }

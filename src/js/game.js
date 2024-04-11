@@ -1,20 +1,25 @@
-import "../css/style.css"
+
+import "../css/style.css";
 import { Board } from "./board";
-const app = document.getElementById("app")
-const state = [
-  [null, 0, null, 0, null, 0, null, 0],
-  [0, null, 0, null, 0, null, 0, null],
-  [null, 0, null, 0, null, 0, null, 0],
-  [null, null, null, null, null, null, null, null],
-  [null, null, null, null, null, null, null, null],
-  [0, null, 0, null, 0, null, 0, null],
-  [null, 0, null, 0, null, 0, null, 0],
-  [0, null, 0, null, 0, null, 0, null],
+const app = document.getElementById("app");
+let state = [
+  [null, "b", null, "b", null, "b", null, "b", null, "b"],
+  ["b", null, "b", null, "b", null, "b", null, "b", null],
+  [null, "b", null, "b", null, "b", null, "b", null, "b"],
+  [null, null, null, null, null, null, null, null, null, null],
+  [null, null, null, null, null, null, null, null, null, null],
+  [null, null, null, null, null, null, null, null, null, null],
+  [null, null, null, null, null, null, null, null, null, null],
+  ["w", null, "w", null, "w", null, "w", null, "w", null],
+  [null, "w", null, "w", null, "w", null, "w", null, "w"],
+  ["w", null, "w", null, "w", null, "w", null, "w", null],
 ];
 
-const board = new Board(8, state)
-app.appendChild(board.board)
-board.makeDraggable()
+const tabuleiro = new Board(10)
+state = tabuleiro.createPieceMatrix(state)
+tabuleiro.setState(state)
 
+tabuleiro.renderBoardState()
+app.appendChild(tabuleiro.getBoard())
 
 

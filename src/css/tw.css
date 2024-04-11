@@ -1,3 +1,23 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body{
+  @apply w-screen h-screen
+}
+#app{
+  @apply fixed overflow-hidden top-0 left-0 bg-gray-500 flex justify-center items-center w-full min-h-full
+}
+.board{
+  @apply w-fit aspect-square bg-orange-400
+}
+
+.board-cell{
+  @apply w-16 h-16 relative border 
+}
+.board-tile{
+  @apply flex items-center justify-center w-full h-full
+}
+.piece{
+  @apply w-4/5 h-4/5 rounded-full shadow-piece
+}
