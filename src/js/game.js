@@ -1,4 +1,3 @@
-
 import "../css/style.css";
 import { Board } from "./board";
 const app = document.getElementById("app");
@@ -16,10 +15,10 @@ let state = [
 ];
 
 const tabuleiro = new Board(10)
-state = tabuleiro.createPieceMatrix(state)
-tabuleiro.setState(state)
+state = tabuleiro.criarMatrixDePecas(state)
+tabuleiro.setEstado(state)
 
-tabuleiro.renderBoardState()
+tabuleiro.renderizarEstadoDoTabuleiro()
 app.appendChild(tabuleiro.getBoard())
 
-
+console.table(tabuleiro.estado);

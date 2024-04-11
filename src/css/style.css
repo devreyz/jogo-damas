@@ -554,13 +554,17 @@ video {
   --tw-contain-style:  ;
 }
 
+.static {
+  position: static;
+}
+
 .table {
   display: table;
 }
 
-.bg-orange-200 {
+.bg-orange-500 {
   --tw-bg-opacity: 1;
-  background-color: rgb(254 215 170 / var(--tw-bg-opacity));
+  background-color: rgb(249 115 22 / var(--tw-bg-opacity));
 }
 
 body {
@@ -587,7 +591,7 @@ body {
   width: -moz-fit-content;
   width: fit-content;
   --tw-bg-opacity: 1;
-  background-color: rgb(251 146 60 / var(--tw-bg-opacity));
+  background-color: rgb(254 215 170 / var(--tw-bg-opacity));
 }
 
 .board-cell {
@@ -605,11 +609,18 @@ body {
   justify-content: center;
 }
 
-.piece {
+.peca {
   height: 80%;
   width: 80%;
+  cursor: pointer;
   border-radius: 9999px;
-  --tw-shadow: -1px 2px 4px  rgba(0, 0, 0, 1), inset -1px 2px 6px  #acd6,  inset 0px 0px 10px  #3645;
+  --tw-shadow: -1px 2px 4px  rgba(0, 0, 0, 1), inset -1px 2px 6px  #acd6,  inset 0px 0px 10px  #3334;
   --tw-shadow-colored: -1px 2px 4px var(--tw-shadow-color), inset -1px 2px 6px var(--tw-shadow-color), inset 0px 0px 10px var(--tw-shadow-color);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+.peca-selecionada {
+  border-width: 2px;
+  --tw-border-opacity: 1;
+  border-color: rgb(22 101 52 / var(--tw-border-opacity));
 }

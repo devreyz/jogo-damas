@@ -1,53 +1,72 @@
-import { Piece } from "./piece";
+import { Peca } from "./piece";
 
 /**
  * Classe que representa o tabuleiro do jogo de damas.
  */
 export class Board {
+  static pecaSelecionada = null
   /**
    * Construtor da classe Board.
-   * @param {number} size - Tamanho do tabuleiro.
+   * @param {number} tamanho - Tamanho do tabuleiro.
    */
-  constructor(size) {
-    this.size = size;
-    this.state = [];
+  constructor(tamanho) {
+    this.tamanho = tamanho;
+    this.estado = [];
     this.board = document.createElement("table");
-    this.tiles = [];
-    this.pieces = [];
+    this.casas = [];
+    this.pecas = [];
+    
+    this.turno = "black"
   }
 
   /**
    * Renderiza o estado atual do tabuleiro.
    */
-  renderBoardState() {
+  renderizarEstadoDoTabuleiro() {
     this.board.classList.add("board");
-    this.state.forEach((rowArray, y) => {
-      const row = document.createElement("tr");
-      row.classList.add("board-row");
-      this.tiles[y] = [];
+    this.estado.forEach((rowArray, y) => {
+      const linha = document.createElement("tr");
+      linha.classList.add("board-row");
+      this.casas[y] = [];
       rowArray.forEach((item, x) => {
-        const cell = document.createElement("td");
-        cell.classList.add("board-cell");
+        const celula = document.createElement("td");
+        celula.classList.add("board-cell");
         const tile = document.createElement("div");
         tile.classList.add("board-tile");
-        cell.appendChild(tile);
-        row.appendChild(cell);
-        this.tiles[y][x] = cell;
-        if ((x + y) % 2 === 0) {
-          cell.classList.add("bg-orange-200");
+        celula.appendChild(tile);
+        linha.appendChild(celula);
+        this.casas[y][x] = celula;
+        if ((x + y) % 2 !== 0) {
+          celula.classList.add("bg-orange-500");
+          tile.onclick = event => {
+            if (item) {
+              Board.pecaSelecionada = item.peca
+              Board.pecaSelecionada.classList.add("peca-selecionada")
+              
+            }
+            this.moverPeca(tile)
+            
+          }
         }
         if (item !== null) {
-          tile.appendChild(item.getPiece());
-          this.pieces.push(item);
+          tile.appendChild(item.getPeca());
+          item.setCasa(tile)
+          this.pecas.push(item);
         }
       });
-      this.board.appendChild(row);
+      this.board.appendChild(linha);
     });
   }
-
+  moverPeca(tile) {
+    tile.appendChild(Board.pecaSelecionada);
+    // Board.pecaSelecionada.classList.remove("peca-selecionada")
+    console.clear()
+console.table(this.estado);
+   
+  }
   /**
    * Cria uma matriz de peças com base no estado passado no formato de array.
-   * @param {Array} state - Estado inicial em que será organizado o tabuleiro.
+   * @param {Array} estado - Estado inicial em que será organizado o tabuleiro.
    * Valores válidos:
    * - null: Cria uma casa vazia.
    * - "b": Cria uma casa com peça Preta.
@@ -55,28 +74,28 @@ export class Board {
    * @returns {Array} - Matriz de peças do tabuleiro.
    */
 
-  createPieceMatrix(state) {
-    const pieceMatrix = [];
-    state.forEach((rowArray, y) => {
-      pieceMatrix[y] = [];
+  criarMatrixDePecas(estado) {
+    const matriz = [];
+    estado.forEach((rowArray, y) => {
+      matriz[y] = [];
       rowArray.forEach((item, x) => {
         if (item !== null) {
-          const piece = new Piece(item, y, x);
-          pieceMatrix[y][x] = piece;
+          const peca = new Peca(item, y, x);
+          matriz[y][x] = peca;
         } else {
-          pieceMatrix[y][x] = null;
+          matriz[y][x] = null;
         }
       });
     });
-    return pieceMatrix;
+    return matriz;
   }
 
   /**
    * Define o estado do tabuleiro.
-   * @param {Array} state - Novo estado do tabuleiro.
+   * @param {Array} estado - Novo estado do tabuleiro.
    */
-  setState(state) {
-    this.state = state;
+  setEstado(estado) {
+    this.estado = estado;
   }
 
   /**
