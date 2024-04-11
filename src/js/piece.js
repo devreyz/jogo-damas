@@ -8,7 +8,7 @@ export class Peca {
    * @param {number} linha - Linha da posição da peça no tabuleiro.
    * @param {number} coluna - Coluna da posição da peça no tabuleiro.
    */
-  constructor(cor, linha, coluna) {
+  constructor(cor, linha, coluna, boardRef) {
     // Gera um ID único para a peça
     this.id = crypto.randomUUID();
     // Define a cor da peça com base no parâmetro recebido
@@ -19,6 +19,7 @@ export class Peca {
     // Cria o elemento HTML da peça
     this.peca = this.criarPeca();
     this.casa = null
+    this.boardRef = boardRef
   }
 
   /**
@@ -56,6 +57,7 @@ export class Peca {
   setCasa(tile) {
     this.casa = tile;
   }
+  
   getCasa() {
     return this.casa;
   }
@@ -64,8 +66,9 @@ export class Peca {
    * @param {number} novaLinha - Nova linha da posição da peça no tabuleiro.
    * @param {number} novaColuna - Nova coluna da posição da peça no tabuleiro.
    */
-  mover(novaLinha, novaColuna) {
+   mover(novaLinha, novaColuna, tile) {
     this.linha = novaLinha;
     this.coluna = novaColuna;
+    this.casa = tile
   }
 }
