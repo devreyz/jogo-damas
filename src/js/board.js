@@ -16,6 +16,8 @@ export class Board {
     this.pecas = [];
     this.pecaSelecionada = null;
     this.turno = "black"; // Define o turno inicial como preto
+    this.movimentosBrancas = []
+    this.movimentosPretas = []
   }
 
   /**
@@ -139,9 +141,14 @@ export class Board {
    * @param {HTMLElement} peca - Elemento HTML da peça a ser movida.
    * @param {HTMLElement} tile - Elemento HTML da casa de destino.
    */
-  moverPeca(peca, tile) {
-    tile.appendChild(peca);
-    peca.classList.remove("peca-selecionada");
+  moverPeca(peca, tile, index) {
+    console.log();
+    if (peca.movimentosPossiveis[index].alvo) {
+      peca.movimentosPossiveis[index].alvo.peca.remove()
+    }
+      tile.appendChild(peca.peca);
+    peca.casa = tile
+    peca.peca.classList.remove("peca-selecionada");
   }
 
   /**

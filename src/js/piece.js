@@ -23,10 +23,12 @@ export class Peca {
     this.peca = this.criarPeca();
     // Referência à casa onde a peça está localizada
     this.casa = null;
+
     // Referência ao objeto Board
     this.boardRef = boardRef;
     // Array para armazenar os movimentos possíveis da peça
     this.movimentosPossiveis = [];
+    this.isDama = false;
   }
 
   /**
@@ -45,6 +47,7 @@ export class Peca {
   criarPeca() {
     const peca = document.createElement("div");
     peca.classList.add("peca");
+    peca.ondblclick = () => this.tornarDama()
     peca.style.backgroundColor = this.cor === "white" ? "#ffffff" : "#000000";
     return peca;
   }
@@ -60,8 +63,9 @@ export class Peca {
   /**
    * Torna a peça uma peça rei.
    */
-  tornarRei() {
-    this.rei = true;
+  tornarDama() {
+    this.isDama = true;
+    this.peca.textContent = "Dama"
   }
 
   /**

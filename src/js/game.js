@@ -35,8 +35,10 @@ app.appendChild(tabuleiro.getBoard());
 // Event listener para o evento de clique em uma casa do tabuleiro
 document.addEventListener("tileClicked", (event) => {
   // Chamada da função para mover a peça
+      console.log(event.detail.peca);
+
   acoes.moverPeca(event);
 
   // Exibição do estado do tabuleiro no console
-  console.table(tabuleiro.estado);
+  //console.table(tabuleiro.estado);
 });

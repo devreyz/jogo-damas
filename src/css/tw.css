@@ -9,9 +9,8 @@ body{
   @apply fixed overflow-hidden top-0 left-0 bg-gray-500 flex justify-center items-center w-full min-h-full
 }
 .board{
-  @apply w-fit aspect-square bg-orange-200
+  @apply aspect-square bg-orange-200 
 }
-
 .board-cell{
   @apply w-14 h-14 relative border 
 }

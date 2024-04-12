@@ -623,8 +623,6 @@ body {
 
 .board {
   aspect-ratio: 1 / 1;
-  width: -moz-fit-content;
-  width: fit-content;
   --tw-bg-opacity: 1;
   background-color: rgb(254 215 170 / var(--tw-bg-opacity));
 }
