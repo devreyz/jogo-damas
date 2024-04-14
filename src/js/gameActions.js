@@ -30,22 +30,29 @@ export class GameActions {
     }
 
     // Verifica se há uma peça selecionada e se o movimento é possível
-    let movimento = this.regras
-        .movimentoEValido(
+    let movimento = this.board.pecaSelecionada
+      ? this.regras.movimentoEValido(
           board.pecaSelecionada.movimentosPossiveis,
-          board.casas[y][x])
+          board.casas[y][x]
+        )
+      : false;
 
+    if (board.pecaSelecionada && movimento.valido) {
+      let { movimentosPossiveis, casa, peca, linha, coluna } =
+        board.pecaSelecionada;
 
-    if (
-      board.pecaSelecionada &&
-      movimento.valido
-        ) {
-      
-      board.moverPeca(board.pecaSelecionada, tile.target, movimento.index);
+      if (movimentosPossiveis[movimento.index].alvo) {
+      this.board.estado[movimentosPossiveis[movimento.index].alvo.linha][movimentosPossiveis[movimento.index].alvo.coluna] = null
+        movimentosPossiveis[movimento.index].alvo.peca.remove();
+      }
+      tile.target.appendChild(peca);
+      casa = tile.target;
+      peca.classList.remove("peca-selecionada");
+
+      // Verifica se o movimento é um ataque
       board.realizarJogada(false);
       board.estado[y][x] = board.pecaSelecionada;
-      board.estado[board.pecaSelecionada.linha][board.pecaSelecionada.coluna] =
-        null;
+      board.estado[linha][coluna] = null;
       board.pecaSelecionada.coluna = x;
       board.pecaSelecionada.linha = y;
       board.pecaSelecionada = null;

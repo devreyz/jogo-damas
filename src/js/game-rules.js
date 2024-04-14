@@ -15,6 +15,7 @@ export class GameRules {
    */
   mapearMovimentos() {
     const { estado, turno } = this.board;
+    console.table(estado)
     estado.forEach((rowArray, y) => {
       rowArray.forEach((peca, x) => {
         if (peca) {
@@ -31,7 +32,11 @@ export class GameRules {
 
   mapearMovimentoSimples(turno, peca, x, y, estado) {
     if (turno === "black" && peca && peca.cor === "black") {
-      if (estado[y + 1][x - 1] !== undefined) {
+      if (
+        y + 1 <= estado.length &&
+        x - 1 >= 0 &&
+        estado[y + 1][x - 1] !== undefined
+      ) {
         if (estado[y + 1][x - 1] === null) {
           peca.movimentosPossiveis.push({
             casa: this.board.casas[y + 1][x - 1],
@@ -41,6 +46,8 @@ export class GameRules {
           });
         } else if (estado[y + 1][x - 1].cor === "white") {
           if (
+            y + 2 <= estado.length &&
+            x - 2 >= 0 &&
             estado[y + 2][x - 2] !== undefined &&
             estado[y + 2][x - 2] === null
           ) {
@@ -79,7 +86,11 @@ export class GameRules {
       }
     }
     if (turno === "white" && peca && peca.cor === "white") {
-      if (estado[y - 1][x - 1] !== undefined) {
+      if (
+        y - 1 <= estado.length &&
+        x - 1 >= 0 &&
+        estado[y - 1][x - 1] !== undefined
+      ) {
         if (estado[y - 1][x - 1] === null) {
           peca.movimentosPossiveis.push({
             casa: this.board.casas[y - 1][x - 1],
@@ -113,6 +124,8 @@ export class GameRules {
           });
         } else if (estado[y - 1][x + 1].cor === "black") {
           if (
+            y - 2 <= estado.length &&
+            x + 2 >= 0 &&
             estado[y - 2][x + 2] !== undefined &&
             estado[y - 2][x + 2] === null
           ) {
@@ -126,13 +139,11 @@ export class GameRules {
         }
       }
     }
-
-    
   }
   mapearMovimentosDama(turno, peca, x, y, estado) {}
   movimentoEValido(array, casa) {
     for (let index = 0; index < array.length; index++) {
-      if (array[index].casa === casa) return {valido: true, index: index};
+      if (array[index].casa === casa) return { valido: true, index: index };
     }
     return { valido: false, index: null };
   }

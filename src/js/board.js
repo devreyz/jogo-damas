@@ -136,20 +136,7 @@ export class Board {
     return this.pecaSelecionada;
   }
 
-  /**
-   * Move uma peça para uma casa especificada.
-   * @param {HTMLElement} peca - Elemento HTML da peça a ser movida.
-   * @param {HTMLElement} tile - Elemento HTML da casa de destino.
-   */
-  moverPeca(peca, tile, index) {
-    console.log();
-    if (peca.movimentosPossiveis[index].alvo) {
-      peca.movimentosPossiveis[index].alvo.peca.remove()
-    }
-      tile.appendChild(peca.peca);
-    peca.casa = tile
-    peca.peca.classList.remove("peca-selecionada");
-  }
+  
 
   /**
    * Cria uma matriz de peças com base no estado passado no formato de array.
